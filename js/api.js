@@ -16,7 +16,7 @@ const api = {
       console.warn('Convex deployment URL not configured');
       return;
     }
-    convexClient = new Convex.ConvexClient(deploymentUrl);
+    convexClient = new convex.ConvexClient(deploymentUrl);
   },
 
   /**
