@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Word League">
+  <title>Family Word League</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Welcome Screen -->
+    <section id="screen-welcome" class="screen active">
+      <div class="screen-content centered">
+        <h1 class="logo">Family Word League</h1>
+        <p class="tagline">Track your Wordle & Connections scores</p>
+        <div class="button-group">
+          <button class="btn btn-primary" onclick="app.showScreen('create')">Create a League</button>
+          <button class="btn btn-secondary" onclick="app.showScreen('join')">Join a League</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Create League Screen -->
+    <section id="screen-create" class="screen">
+      <header class="screen-header">
+        <button class="btn-back" onclick="app.showScreen('welcome')">&larr;</button>
+        <h2>Create a League</h2>
+      </header>
+      <div class="screen-content">
+        <form id="create-league-form" onsubmit="app.handleCreateLeague(event)">
+          <div class="form-group">
+            <label for="league-name">League Name</label>
+            <input type="text" id="league-name" placeholder="e.g., The Smiths" required maxlength="50">
+          </div>
+          <div class="form-group">
+            <label>Players (2-8)</label>
+            <div id="player-inputs">
+              <input type="text" class="player-input" placeholder="Player 1" required maxlength="30">
+              <input type="text" class="player-input" placeholder="Player 2" required maxlength="30">
+            </div>
+            <button type="button" class="btn btn-small" onclick="app.addPlayerInput()">+ Add Player</button>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Create League</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Invite Code Screen -->
+    <section id="screen-invite" class="screen">
+      <header class="screen-header">
+        <h2>League Created!</h2>
+      </header>
+      <div class="screen-content centered">
+        <p>Share this code with your group:</p>
+        <div class="invite-code" id="invite-code-display">XXXXXXXX</div>
+        <button class="btn btn-secondary" onclick="app.copyInviteCode()">Copy Code</button>
+        <hr class="divider">
+        <p>Which player are you?</p>
+        <div id="player-select-create" class="player-select"></div>
+      </div>
+    </section>
+
+    <!-- Join League Screen -->
+    <section id="screen-join" class="screen">
+      <header class="screen-header">
+        <button class="btn-back" onclick="app.showScreen('welcome')">&larr;</button>
+        <h2>Join a League</h2>
+      </header>
+      <div class="screen-content">
+        <form id="join-league-form" onsubmit="app.handleJoinLeague(event)">
+          <div class="form-group">
+            <label for="invite-code">Invite Code</label>
+            <input type="text" id="invite-code" placeholder="e.g., SMITHS24" required maxlength="8" style="text-transform: uppercase;">
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Find League</button>
+        </form>
+        <div id="join-league-result" class="hidden">
+          <hr class="divider">
+          <h3 id="join-league-name"></h3>
+          <p>Which player are you?</p>
+          <div id="player-select-join" class="player-select"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Leaderboard Screen -->
+    <section id="screen-leaderboard" class="screen">
+      <header class="screen-header">
+        <h2 id="league-title">Leaderboard</h2>
+        <button class="btn-settings" onclick="app.showScreen('settings')">&#9881;</button>
+      </header>
+      <div class="screen-content">
+        <div class="game-tabs">
+          <button class="tab active" data-game="wordle" onclick="app.setGame('wordle')">Wordle</button>
+          <button class="tab" data-game="connections" onclick="app.setGame('connections')">Connections</button>
+        </div>
+        <div class="period-filters">
+          <button class="filter active" data-period="week" onclick="app.setPeriod('week')">Week</button>
+          <button class="filter" data-period="month" onclick="app.setPeriod('month')">Month</button>
+          <button class="filter" data-period="year" onclick="app.setPeriod('year')">Year</button>
+          <button class="filter" data-period="all" onclick="app.setPeriod('all')">All Time</button>
+        </div>
+        <div id="leaderboard-list" class="leaderboard-list">
+          <!-- Player cards rendered here -->
+        </div>
+        <button class="btn btn-primary btn-fab" onclick="app.showScreen('submit')">+</button>
+      </div>
+    </section>
+
+    <!-- Manual Submit Screen -->
+    <section id="screen-submit" class="screen">
+      <header class="screen-header">
+        <button class="btn-back" onclick="app.showScreen('leaderboard')">&larr;</button>
+        <h2>Submit Score</h2>
+      </header>
+      <div class="screen-content">
+        <div class="form-group">
+          <label for="score-input">Paste your result</label>
+          <textarea id="score-input" placeholder="Paste your Wordle or Connections result here..." rows="8" oninput="app.previewScore()"></textarea>
+        </div>
+        <div id="score-preview" class="score-preview hidden">
+          <div class="preview-header">
+            <span id="preview-game"></span>
+            <span id="preview-puzzle"></span>
+          </div>
+          <div id="preview-points" class="preview-points"></div>
+          <div id="preview-breakdown" class="preview-breakdown"></div>
+        </div>
+        <button class="btn btn-primary btn-full" id="submit-score-btn" onclick="app.submitScore()" disabled>Submit Score</button>
+      </div>
+    </section>
+
+    <!-- Player History Modal -->
+    <section id="screen-history" class="screen modal">
+      <header class="screen-header">
+        <button class="btn-back" onclick="app.showScreen('leaderboard')">&larr;</button>
+        <h2 id="history-player-name">Player History</h2>
+      </header>
+      <div class="screen-content">
+        <div id="history-list" class="history-list">
+          <!-- Score history rendered here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Settings Screen -->
+    <section id="screen-settings" class="screen">
+      <header class="screen-header">
+        <button class="btn-back" onclick="app.showScreen('leaderboard')">&larr;</button>
+        <h2>Settings</h2>
+      </header>
+      <div class="screen-content">
+        <div class="settings-section">
+          <h3>Your Identity</h3>
+          <p>You are: <strong id="current-player-name">-</strong></p>
+          <button class="btn btn-secondary" onclick="app.showPlayerSwitch()">Switch Player</button>
+        </div>
+        <div class="settings-section">
+          <h3>League Info</h3>
+          <p>League: <strong id="settings-league-name">-</strong></p>
+          <p>Invite Code: <strong id="settings-invite-code">-</strong></p>
+          <button class="btn btn-secondary" onclick="app.shareLeague()">Share League</button>
+        </div>
+        <div class="settings-section">
+          <button class="btn btn-danger" onclick="app.leaveLeague()">Leave League</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Player Switch Modal -->
+    <div id="modal-player-switch" class="modal-overlay hidden">
+      <div class="modal-content">
+        <h3>Switch Player</h3>
+        <div id="player-switch-list" class="player-select"></div>
+        <button class="btn btn-secondary" onclick="app.hidePlayerSwitch()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <!-- Configure your Convex deployment URL here -->
+  <script>
+    // TODO: Replace with your Convex deployment URL after running `npx convex dev`
+    window.CONVEX_URL = 'https://compassionate-dogfish-966.convex.cloud'; // e.g., 'https://your-project-123.convex.cloud'
+  </script>
+  <script src="https://unpkg.com/convex@1.17.4/dist/browser.bundle.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/parser.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

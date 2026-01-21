@@ -1,0 +1,27 @@
+[build]
+  publish = "."
+  command = "echo 'Static site, no build needed'"
+
+# Handle share target redirects
+[[redirects]]
+  from = "/share"
+  to = "/?share=:text"
+  status = 302
+  query = { text = ":text" }
+
+# SPA fallback
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Content-Type = "application/manifest+json"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Content-Type = "application/javascript"
+    Cache-Control = "no-cache"

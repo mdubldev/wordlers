@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#fafafa"/>
+
+  <!-- Grid of Wordle-style tiles -->
+  <g transform="translate(56, 136)">
+    <!-- Row 1 -->
+    <rect x="0" y="0" width="72" height="72" fill="#6aaa64" rx="4"/>
+    <rect x="82" y="0" width="72" height="72" fill="#c9b458" rx="4"/>
+    <rect x="164" y="0" width="72" height="72" fill="#787c7e" rx="4"/>
+    <rect x="246" y="0" width="72" height="72" fill="#787c7e" rx="4"/>
+    <rect x="328" y="0" width="72" height="72" fill="#6aaa64" rx="4"/>
+
+    <!-- Row 2 -->
+    <rect x="0" y="82" width="72" height="72" fill="#787c7e" rx="4"/>
+    <rect x="82" y="82" width="72" height="72" fill="#6aaa64" rx="4"/>
+    <rect x="164" y="82" width="72" height="72" fill="#6aaa64" rx="4"/>
+    <rect x="246" y="82" width="72" height="72" fill="#c9b458" rx="4"/>
+    <rect x="328" y="82" width="72" height="72" fill="#787c7e" rx="4"/>
+
+    <!-- Row 3 -->
+    <rect x="0" y="164" width="72" height="72" fill="#6aaa64" rx="4"/>
+    <rect x="82" y="164" width="72" height="72" fill="#6aaa64" rx="4"/>
+    <rect x="164" y="164" width="72" height="72" fill="#6aaa64" rx="4"/>
+    <rect x="246" y="164" width="72" height="72" fill="#6aaa64" rx="4"/>
+    <rect x="328" y="164" width="72" height="72" fill="#6aaa64" rx="4"/>
+  </g>
+
+  <!-- Letters in tiles -->
+  <g fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-weight="700" font-size="44" text-anchor="middle" dominant-baseline="central">
+    <text x="92" y="172">W</text>
+    <text x="174" y="172">O</text>
+    <text x="256" y="172">R</text>
+    <text x="338" y="172">D</text>
+    <text x="420" y="172">S</text>
+
+    <text x="92" y="254">L</text>
+    <text x="174" y="254">E</text>
+    <text x="256" y="254">A</text>
+    <text x="338" y="254">G</text>
+    <text x="420" y="254">U</text>
+
+    <text x="92" y="336">E</text>
+    <text x="174" y="336">!</text>
+    <text x="256" y="336">!</text>
+    <text x="338" y="336">!</text>
+    <text x="420" y="336">!</text>
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+{
+  "name": "family-word-league",
+  "version": "1.0.0",
+  "description": "Track Wordle & Connections scores with your group",
+  "scripts": {
+    "convex": "convex dev",
+    "convex:deploy": "convex deploy"
+  },
+  "devDependencies": {
+    "convex": "^1.17.4"
+  }
+}
