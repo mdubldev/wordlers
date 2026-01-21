@@ -137,9 +137,10 @@ const parser = {
       }
 
       // Bonus for perfect reverse order (purple → blue → green → yellow)
+      // Only awarded if completed with no mistakes (exactly 4 guesses)
       const perfectOrder = ['purple', 'blue', 'green', 'yellow'];
       const isPerfectOrder = solveOrder.every((color, i) => color === perfectOrder[i]);
-      if (isPerfectOrder) {
+      if (isPerfectOrder && emojiLines.length === 4) {
         points += 1;
       }
     }
@@ -152,7 +153,7 @@ const parser = {
         breakdown.push('Purple first (+1)');
       }
       const perfectOrder = ['purple', 'blue', 'green', 'yellow'];
-      if (solveOrder.every((color, i) => color === perfectOrder[i])) {
+      if (solveOrder.every((color, i) => color === perfectOrder[i]) && emojiLines.length === 4) {
         breakdown.push('Perfect order (+1)');
       }
     } else {
