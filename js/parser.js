@@ -167,7 +167,8 @@ const parser = {
       completed,
       rawResult: completed ? solveOrder.join(' → ') : `${solveOrder.length}/4`,
       breakdown: breakdown.join(', '),
-      emojiGrid: emojiLines.join('\n')
+      emojiGrid: emojiLines.join('\n'),
+      totalGuesses: emojiLines.length
     };
   },
 

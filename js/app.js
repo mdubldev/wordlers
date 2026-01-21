@@ -15,6 +15,47 @@ const app = {
   parsedScore: null,
 
   /**
+   * Check if score deserves confetti celebration
+   */
+  shouldShowConfetti(parsed) {
+    if (!parsed) return false;
+
+    if (parsed.game === 'wordle') {
+      // 1 or 2 guesses
+      return parsed.guesses === 1 || parsed.guesses === 2;
+    }
+
+    if (parsed.game === 'connections') {
+      // Perfect order with no mistakes
+      const perfectOrder = ['purple', 'blue', 'green', 'yellow'];
+      const isPerfectOrder = parsed.solveOrder?.every((color, i) => color === perfectOrder[i]);
+      const noMistakes = parsed.totalGuesses === 4;
+      return isPerfectOrder && noMistakes;
+    }
+
+    return false;
+  },
+
+  /**
+   * Fire confetti animation
+   */
+  fireConfetti() {
+    if (typeof confetti !== 'function') return;
+
+    // Burst from both sides
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { x: 0.1, y: 0.6 }
+    });
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { x: 0.9, y: 0.6 }
+    });
+  },
+
+  /**
    * Initialize the application
    */
   async init() {
@@ -480,12 +521,18 @@ const app = {
         return;
       }
 
+      // Check for confetti before clearing parsedScore
+      const shouldCelebrate = this.shouldShowConfetti(this.parsedScore);
+
       // Clear form
       document.getElementById('score-input').value = '';
       document.getElementById('score-preview').classList.add('hidden');
       document.getElementById('submit-score-btn').disabled = true;
       this.parsedScore = null;
 
+      if (shouldCelebrate) {
+        this.fireConfetti();
+      }
       this.showToast('Score submitted!');
       this.showScreen('leaderboard');
       this.loadLeaderboard();
@@ -528,6 +575,9 @@ const app = {
       });
 
       if (!result.duplicate) {
+        if (this.shouldShowConfetti(parsed)) {
+          this.fireConfetti();
+        }
         this.showToast(`${parsed.points} ${parsed.points === 1 ? 'point' : 'points'} added!`);
       }
       // Silent if duplicate (as per requirements)
