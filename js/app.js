@@ -92,13 +92,44 @@ const app = {
       return;
     }
 
+    const row = document.createElement('div');
+    row.className = 'player-row';
+
     const input = document.createElement('input');
     input.type = 'text';
     input.className = 'player-input';
     input.placeholder = `Player ${inputs.length + 1}`;
     input.required = true;
     input.maxLength = 30;
-    container.appendChild(input);
+
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'btn-remove';
+    removeBtn.innerHTML = '&times;';
+    removeBtn.onclick = () => this.removePlayerInput(removeBtn);
+
+    row.appendChild(input);
+    row.appendChild(removeBtn);
+    container.appendChild(row);
+  },
+
+  removePlayerInput(button) {
+    const container = document.getElementById('player-inputs');
+    const rows = container.querySelectorAll('.player-row');
+
+    if (rows.length <= 2) {
+      this.showToast('Need at least 2 players');
+      return;
+    }
+
+    const row = button.closest('.player-row');
+    row.remove();
+
+    // Update placeholder numbers
+    const inputs = container.querySelectorAll('.player-input');
+    inputs.forEach((input, index) => {
+      input.placeholder = `Player ${index + 1}`;
+    });
   },
 
   /**

@@ -261,8 +261,30 @@ body {
   margin-bottom: var(--space-sm);
 }
 
-.player-input {
-  position: relative;
+.player-row {
+  display: flex;
+  gap: var(--space-xs);
+  align-items: center;
+}
+
+.player-row .player-input {
+  flex: 1;
+}
+
+.btn-remove {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+  border-radius: var(--radius-sm);
+}
+
+.btn-remove:hover {
+  color: var(--danger);
+  background: rgba(239, 68, 68, 0.1);
 }
 
 /* Invite Code Display */
