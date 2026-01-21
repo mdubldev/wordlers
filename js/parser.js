@@ -148,7 +148,7 @@ const parser = {
     // Build breakdown description
     let breakdown = [];
     if (completed) {
-      breakdown.push('Completed');
+      breakdown.push('Completed (+1)');
       if (solveOrder[0] === 'purple') {
         breakdown.push('Purple first (+1)');
       }
