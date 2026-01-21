@@ -1,4 +1,4 @@
-const CACHE_NAME = 'word-league-v1';
+const CACHE_NAME = 'word-league-v2';
 const ASSETS = [
   '/',
   '/index.html',
@@ -34,10 +34,22 @@ self.addEventListener('activate', (event) => {
 
 // Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', (event) => {
-  // Handle share target
-  if (event.request.url.includes('/share')) {
+  // Handle share target (POST from iOS/Android share sheet)
+  if (event.request.url.includes('/share') && event.request.method === 'POST') {
     event.respondWith(
-      Response.redirect('/?share=' + encodeURIComponent(new URL(event.request.url).searchParams.get('text') || ''))
+      (async () => {
+        const formData = await event.request.formData();
+        const text = formData.get('text') || '';
+        return Response.redirect('/?share=' + encodeURIComponent(text), 303);
+      })()
+    );
+    return;
+  }
+
+  // Handle share target (GET fallback for older browsers)
+  if (event.request.url.includes('/share') && event.request.method === 'GET') {
+    event.respondWith(
+      Response.redirect('/?share=' + encodeURIComponent(new URL(event.request.url).searchParams.get('text') || ''), 303)
     );
     return;
   }
