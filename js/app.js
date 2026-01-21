@@ -529,8 +529,6 @@ const app = {
    * Update settings screen with current values
    */
   async updateSettingsScreen() {
-    document.getElementById('current-player-name').textContent = storage.getPlayerName() || '-';
-
     const leagueId = storage.getLeagueId();
     if (!leagueId || !api.isReady()) return;
 
@@ -541,49 +539,6 @@ const app = {
     } catch (err) {
       console.error('Get league error:', err);
     }
-  },
-
-  /**
-   * Show player switch modal
-   */
-  async showPlayerSwitch() {
-    const leagueId = storage.getLeagueId();
-    const currentPlayerId = storage.getPlayerId();
-
-    if (!leagueId || !api.isReady()) return;
-
-    try {
-      const players = await api.getPlayers(leagueId);
-
-      const container = document.getElementById('player-switch-list');
-      container.innerHTML = players.map(player => {
-        const isCurrent = player.id === currentPlayerId;
-        return `<button class="player-select-btn ${isCurrent ? 'current' : ''}" ${isCurrent ? 'disabled' : ''} onclick="app.switchPlayer('${player.id}', '${player.name}')">${player.name}${isCurrent ? ' (you)' : ''}</button>`;
-      }).join('');
-
-      document.getElementById('modal-player-switch').classList.remove('hidden');
-
-    } catch (err) {
-      console.error('Get players error:', err);
-      this.showToast('Failed to load players');
-    }
-  },
-
-  /**
-   * Hide player switch modal
-   */
-  hidePlayerSwitch() {
-    document.getElementById('modal-player-switch').classList.add('hidden');
-  },
-
-  /**
-   * Switch to a different player
-   */
-  switchPlayer(playerId, playerName) {
-    storage.switchPlayer(playerId, playerName);
-    this.hidePlayerSwitch();
-    this.updateSettingsScreen();
-    this.showToast(`Switched to ${playerName}`);
   },
 
   /**

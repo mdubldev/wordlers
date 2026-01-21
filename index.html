@@ -162,11 +162,6 @@
       </header>
       <div class="screen-content">
         <div class="settings-section">
-          <h3>Your Identity</h3>
-          <p>You are: <strong id="current-player-name">-</strong></p>
-          <button class="btn btn-secondary" onclick="app.showPlayerSwitch()">Switch Player</button>
-        </div>
-        <div class="settings-section">
           <h3>League Info</h3>
           <p>League: <strong id="settings-league-name">-</strong></p>
           <p>Invite Code: <strong id="settings-invite-code">-</strong></p>
@@ -177,15 +172,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Player Switch Modal -->
-    <div id="modal-player-switch" class="modal-overlay hidden">
-      <div class="modal-content">
-        <h3>Switch Player</h3>
-        <div id="player-switch-list" class="player-select"></div>
-        <button class="btn btn-secondary" onclick="app.hidePlayerSwitch()">Cancel</button>
-      </div>
-    </div>
 
     <!-- Toast Notifications -->
     <div id="toast" class="toast hidden"></div>

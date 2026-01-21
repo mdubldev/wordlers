@@ -48,14 +48,6 @@ const storage = {
   },
 
   /**
-   * Update just the player (for switching)
-   */
-  switchPlayer(playerId, playerName) {
-    localStorage.setItem(this.KEYS.PLAYER_ID, playerId);
-    localStorage.setItem(this.KEYS.PLAYER_NAME, playerName);
-  },
-
-  /**
    * Clear all stored data (leave league)
    */
   clear() {
