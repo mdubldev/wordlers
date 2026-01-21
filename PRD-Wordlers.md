@@ -312,11 +312,16 @@ Users can filter the leaderboard by:
 
 | Platform | Share Target | PWA Install | Notes |
 |----------|--------------|-------------|-------|
-| Android + Chrome | ✅ | ✅ | Best experience |
-| iOS + Safari | ✅ (iOS 15+) | ✅ | Slightly quirky but works |
+| Android + Chrome | ✅ | ✅ | Best experience - direct share from NYT |
+| iOS + Safari | ❌ | ✅ | Use "Paste from Clipboard" button instead |
 | Desktop Chrome | Limited | ✅ | Share Target less useful on desktop |
 
 **Primary target:** Mobile (Android & iOS)
+
+**iOS Workaround:** Web Share Target API is not supported on iOS Safari. iOS users should:
+1. Copy the result from NYT Games app (tap Share → Copy)
+2. Open Wordlers
+3. Tap + to submit, then use "Paste from Clipboard" button
 
 ---
 
@@ -350,7 +355,7 @@ If usage grows organically:
 
 For personal/family use:
 
-- [ ] All 4 family members successfully submit scores via Share Target
+- [ ] All 4 family members successfully submit scores (via Share Target on Android, or Paste on iOS)
 - [ ] Leaderboard updates in real-time when anyone submits
 - [ ] Weekly champion is clear and accurate
 - [ ] App feels faster than checking WhatsApp chat history

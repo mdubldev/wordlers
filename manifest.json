@@ -22,11 +22,10 @@
     }
   ],
   "share_target": {
-    "action": "/share",
-    "method": "POST",
-    "enctype": "multipart/form-data",
+    "action": "/",
+    "method": "GET",
     "params": {
-      "text": "text"
+      "text": "share"
     }
   }
 }

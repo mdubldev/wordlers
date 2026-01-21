@@ -403,6 +403,24 @@ const app = {
   },
 
   /**
+   * Paste from clipboard (for iOS users who can't use Web Share Target)
+   */
+  async pasteFromClipboard() {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (text) {
+        document.getElementById('score-input').value = text;
+        this.previewScore();
+      } else {
+        this.showToast('Clipboard is empty');
+      }
+    } catch (err) {
+      // Clipboard API denied or unavailable
+      this.showToast('Paste manually using long-press');
+    }
+  },
+
+  /**
    * Preview score from manual entry
    */
   previewScore() {

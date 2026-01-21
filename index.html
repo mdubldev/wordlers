@@ -128,6 +128,7 @@
         <div class="form-group">
           <label for="score-input">Paste your result</label>
           <textarea id="score-input" placeholder="Paste your Wordle or Connections result here..." rows="8" oninput="app.previewScore()"></textarea>
+          <button class="btn btn-secondary btn-full" onclick="app.pasteFromClipboard()" style="margin-top: 0.5rem;">Paste from Clipboard</button>
         </div>
         <div id="score-preview" class="score-preview hidden">
           <div class="preview-header">
