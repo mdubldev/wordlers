@@ -128,8 +128,15 @@ const parser = {
 
     // Calculate points
     let points = 0;
+    const noMistakes = emojiLines.length === 4;
+
     if (completed) {
       points = 1; // Base point for completing
+
+      // Bonus for no mistakes (exactly 4 guesses)
+      if (noMistakes) {
+        points += 1;
+      }
 
       // Bonus for getting purple (hardest) first
       if (solveOrder[0] === 'purple') {
@@ -137,10 +144,10 @@ const parser = {
       }
 
       // Bonus for perfect reverse order (purple → blue → green → yellow)
-      // Only awarded if completed with no mistakes (exactly 4 guesses)
+      // Only awarded if completed with no mistakes
       const perfectOrder = ['purple', 'blue', 'green', 'yellow'];
       const isPerfectOrder = solveOrder.every((color, i) => color === perfectOrder[i]);
-      if (isPerfectOrder && emojiLines.length === 4) {
+      if (isPerfectOrder && noMistakes) {
         points += 1;
       }
     }
@@ -149,11 +156,14 @@ const parser = {
     let breakdown = [];
     if (completed) {
       breakdown.push('Completed (+1)');
+      if (noMistakes) {
+        breakdown.push('No mistakes (+1)');
+      }
       if (solveOrder[0] === 'purple') {
         breakdown.push('Purple first (+1)');
       }
       const perfectOrder = ['purple', 'blue', 'green', 'yellow'];
-      if (solveOrder.every((color, i) => color === perfectOrder[i]) && emojiLines.length === 4) {
+      if (solveOrder.every((color, i) => color === perfectOrder[i]) && noMistakes) {
         breakdown.push('Perfect order (+1)');
       }
     } else {
