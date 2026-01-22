@@ -169,6 +169,41 @@
           <button class="btn btn-secondary" onclick="app.shareLeague()">Share League</button>
         </div>
         <div class="settings-section">
+          <h3>How Scoring Works</h3>
+          <div class="accordion">
+            <button class="accordion-header" onclick="app.toggleAccordion(this)">
+              <span>Wordle</span>
+              <span class="accordion-icon">+</span>
+            </button>
+            <div class="accordion-content">
+              <ul class="scoring-list">
+                <li>1/6 = 6 points</li>
+                <li>2/6 = 5 points</li>
+                <li>3/6 = 4 points</li>
+                <li>4/6 = 3 points</li>
+                <li>5/6 = 2 points</li>
+                <li>6/6 = 1 point</li>
+                <li>X/6 = 0 points</li>
+              </ul>
+            </div>
+          </div>
+          <div class="accordion">
+            <button class="accordion-header" onclick="app.toggleAccordion(this)">
+              <span>Connections</span>
+              <span class="accordion-icon">+</span>
+            </button>
+            <div class="accordion-content">
+              <p class="scoring-rule"><strong>Base: 1 point for completing all 4 groups</strong></p>
+              <p class="scoring-rule">Bonus points:</p>
+              <ul class="scoring-list">
+                <li><strong>+1</strong> No mistakes (solved in exactly 4 guesses)</li>
+                <li><strong>+1</strong> Purple first (hardest group solved first)</li>
+                <li><strong>+1</strong> Perfect order (Purple → Blue → Green → Yellow, requires no mistakes)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="settings-section">
           <button class="btn btn-danger" onclick="app.leaveLeague()">Leave League</button>
         </div>
       </div>

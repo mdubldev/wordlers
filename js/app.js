@@ -657,6 +657,14 @@ const app = {
   },
 
   /**
+   * Toggle accordion expand/collapse
+   */
+  toggleAccordion(button) {
+    const accordion = button.parentElement;
+    accordion.classList.toggle('open');
+  },
+
+  /**
    * Confirm and delete a score (admin only)
    */
   async confirmDeleteScore(scoreId) {
