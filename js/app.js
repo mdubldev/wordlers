@@ -14,6 +14,9 @@ const app = {
   // Current parsed score (for submission)
   parsedScore: null,
 
+  // Track user's current leaderboard position
+  currentRank: null,
+
   /**
    * Check if score deserves confetti celebration
    */
@@ -390,6 +393,10 @@ const app = {
         `;
       }).join('');
 
+      // Track current user's rank for #1 celebration
+      const currentUserIndex = leaderboard.findIndex(p => p.playerId === currentPlayerId);
+      this.currentRank = currentUserIndex !== -1 ? currentUserIndex + 1 : null;
+
     } catch (err) {
       console.error('Load leaderboard error:', err);
       container.innerHTML = '<div class="empty-state">Failed to load leaderboard</div>';
@@ -491,6 +498,9 @@ const app = {
       return;
     }
 
+    // Save rank before submission to detect reaching #1
+    const previousRank = this.currentRank;
+
     try {
       const result = await api.submitScore({
         leagueId,
@@ -523,7 +533,12 @@ const app = {
       }
       this.showToast('Score submitted!');
       this.showScreen('leaderboard');
-      this.loadLeaderboard();
+      await this.loadLeaderboard();
+
+      // Celebrate reaching #1
+      if (previousRank !== 1 && this.currentRank === 1) {
+        this.fireConfetti();
+      }
 
     } catch (err) {
       console.error('Submit score error:', err);
@@ -552,6 +567,9 @@ const app = {
       return;
     }
 
+    // Save rank before submission to detect reaching #1
+    const previousRank = this.currentRank;
+
     try {
       const result = await api.submitScore({
         leagueId,
@@ -572,7 +590,12 @@ const app = {
 
       this.showScreen('leaderboard');
       this.setGame(parsed.game);
-      this.loadLeaderboard();
+      await this.loadLeaderboard();
+
+      // Celebrate reaching #1 (only if not duplicate)
+      if (!result.duplicate && previousRank !== 1 && this.currentRank === 1) {
+        this.fireConfetti();
+      }
 
     } catch (err) {
       console.error('Share target submit error:', err);
