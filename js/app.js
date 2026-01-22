@@ -411,31 +411,19 @@ const app = {
 
     try {
       const history = await api.getPlayerHistory(playerId, this.currentGame);
-      const isAdmin = storage.isAdmin();
-      const players = await api.getPlayers(storage.getLeagueId());
 
       if (history.length === 0) {
         container.innerHTML = '<div class="empty-state">No scores yet</div>';
         return;
       }
 
-      container.innerHTML = history.map(score => {
-        const adminActions = isAdmin ? `
-          <div class="history-actions">
-            <button onclick="event.stopPropagation(); app.showReassignModal('${score.id}', '${playerId}')" title="Reassign">&#8644;</button>
-            <button class="delete" onclick="event.stopPropagation(); app.confirmDeleteScore('${score.id}')" title="Delete">&times;</button>
-          </div>
-        ` : '';
-
-        return `
-          <div class="history-item">
-            <div class="history-puzzle">#${score.puzzleNum}</div>
-            <div class="history-result">${score.rawResult}</div>
-            <div class="history-points">${score.points}</div>
-            ${adminActions}
-          </div>
-        `;
-      }).join('');
+      container.innerHTML = history.map(score => `
+        <div class="history-item">
+          <div class="history-puzzle">#${score.puzzleNum}</div>
+          <div class="history-result">${score.rawResult}</div>
+          <div class="history-points">${score.points}</div>
+        </div>
+      `).join('');
 
     } catch (err) {
       console.error('Load history error:', err);
